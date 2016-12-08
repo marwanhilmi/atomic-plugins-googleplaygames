@@ -1,16 +1,16 @@
 {
   "name": "@counterplay/cocoon-plugin-social-android-googleplaygames",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Android Google Play Games API",
   "cordova": {
-    "id": "cocoon-plugin-social-android-googleplaygames",
+    "id": "@counterplay/cocoon-plugin-social-android-googleplaygames",
     "platforms": [
       "android"
     ]
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ludei/atomic-plugins-googleplaygames"
+    "url": "https://github.com/88dots/cocoon-plugin-social-android-googleplaygames"
   },
   "keywords": [
     "cordova",
@@ -27,9 +27,5 @@
     "cordova-android"
   ],
   "author": "ludei",
-  "license": "MPL 2.0",
-  "bugs": {
-    "url": "https://github.com/ludei/atomic-plugins-googleplaygames/issues"
-  },
-  "homepage": "https://github.com/ludei/atomic-plugins-googleplaygames#readme"
+  "license": "MPL 2.0"
 }
