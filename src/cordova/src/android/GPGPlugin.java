@@ -365,6 +365,27 @@ public class GPGPlugin extends CordovaPlugin implements GPGService.SessionCallba
         });
     }
 
+    @SuppressWarnings("unused")
+    public void loadServerAuthCode(CordovaArgs args, final CallbackContext ctx) throws JSONException {
+        String oauthClientId = args.getString(0);
+        LOG.d("authCode","client id " + oauthClientId);
+        _service.loadServerAuthCode(oauthClientId, new GPGService.RequestCallback() {
+            @Override
+            public void onComplete(JSONObject responseJSON, GPGService.Error error) {
+                if (responseJSON != null) {
+                    ctx.sendPluginResult(new PluginResult(PluginResult.Status.OK, responseJSON));
+                } else if (error != null) {
+                    ctx.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION, new JSONObject(error.toMap())));
+                }
+                // should never happen
+                else {
+                    error = new GPGService.Error("Server auth code could not be accessed, no specific error code", 1);
+                    ctx.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, new JSONObject(error.toMap())));
+                }
+            }
+        });
+    }
+
     //Session Listener
     @Override
     public void onComplete(GPGService.Session session, GPGService.Error error)

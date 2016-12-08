@@ -11,7 +11,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-
+import android.os.Debug;
+import org.apache.cordova.LOG;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.Scopes;
@@ -41,6 +42,7 @@ import com.google.android.gms.games.snapshot.SnapshotMetadataChange;
 import com.google.android.gms.games.snapshot.Snapshots;
 import com.google.android.gms.games.stats.PlayerStats;
 import com.google.android.gms.games.stats.Stats;
+import com.google.android.gms.plus.Plus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedOutputStream;
@@ -409,7 +411,9 @@ public class GPGService implements GoogleApiClient.ConnectionCallbacks, GoogleAp
 
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(activity, this, this);
         builder.addApi(Games.API);
+        builder.addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN);
         builder.addScope(Games.SCOPE_GAMES);
+        
         //TODO: better way to handle extra scopes
         if (scopes != null) {
             for (String str: scopes) {
@@ -1280,6 +1284,35 @@ public class GPGService implements GoogleApiClient.ConnectionCallbacks, GoogleAp
                         callback.onComplete(data, new Error("Player stats fetched successfully",  GamesStatusCodes.STATUS_OK));
                     } else {
                         callback.onComplete(null, new Error("getPlayerStats returned 'null'",  GamesStatusCodes.STATUS_INTERNAL_ERROR));
+                    }
+                } else {
+                    callback.onComplete(null, new Error("status.isSuccess did not return 'true'",  GamesStatusCodes.STATUS_NETWORK_ERROR_NO_DATA));
+                }
+            }
+        });
+    }
+
+    public void loadServerAuthCode(final String oauthClientId, final RequestCallback callback) {
+        LOG.d("authCode","client id " + oauthClientId)
+        PendingResult<Games.GetServerAuthCodeResult> result = Games.getGamesServerAuthCode(client, oauthClientId);
+        result.setResultCallback(new ResultCallback<Games.GetServerAuthCodeResult>() {
+            public void onResult(Games.GetServerAuthCodeResult result) {
+                Status status = result.getStatus();
+                LOG.d("authCode","status " + status.toString())
+                Debug.waitForDebugger();
+                if (status.isSuccess()) {
+                    String authCode = result.getCode();
+                    JSONObject data = new JSONObject();
+                    if (authCode != null) {
+                        try {
+                            data.put("authCode", authCode);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        callback.onComplete(data, new Error("getServerAuthCode fetched successfully",  GamesStatusCodes.STATUS_OK));
+                    } else {
+                        callback.onComplete(null, new Error("getServerAuthCode returned 'null'",  GamesStatusCodes.STATUS_INTERNAL_ERROR));
                     }
                 } else {
                     callback.onComplete(null, new Error("status.isSuccess did not return 'true'",  GamesStatusCodes.STATUS_NETWORK_ERROR_NO_DATA));

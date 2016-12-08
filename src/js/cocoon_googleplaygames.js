@@ -359,7 +359,23 @@
                 }, function (error) {
                     callback(null, error);
                 });
-            }
+            },
+            /**
+             * Loads an auth code for player. See for more info: http://android-developers.blogspot.com/2016/01/play-games-permissions-are-changing-in.html
+             * @function loadServerAuthCode
+             * @memberOf Cocoon.Social.GooglePlayGames
+             * @param {function} callback The callback function. It receives the following parameters:
+             * - authCode: Object with the authCode
+             * - Error.
+             */
+            loadServerAuthCode: function (callback) {
+                Cocoon.exec(this.serviceName, "loadServerAuthCode", [], function (authCode) {
+                    callback(authCode, null);
+                }, function (error) {
+                    callback(null, error);
+                });
+            },
+
         };
 
         extension.GooglePlayGames = new extension.GooglePlayGamesExtension();
