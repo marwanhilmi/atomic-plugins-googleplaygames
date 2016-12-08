@@ -368,7 +368,7 @@ public class GPGPlugin extends CordovaPlugin implements GPGService.SessionCallba
     @SuppressWarnings("unused")
     public void loadServerAuthCode(CordovaArgs args, final CallbackContext ctx) throws JSONException {
         String oauthClientId = args.getString(0);
-        LOG.d("authCode","client id " + oauthClientId);
+        // LOG.d("authCode","client id " + oauthClientId);
         _service.loadServerAuthCode(oauthClientId, new GPGService.RequestCallback() {
             @Override
             public void onComplete(JSONObject responseJSON, GPGService.Error error) {

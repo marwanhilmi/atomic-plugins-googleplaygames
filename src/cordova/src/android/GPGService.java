@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.os.Debug;
+// import android.os.Debug;
 import org.apache.cordova.LOG;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -1293,13 +1293,13 @@ public class GPGService implements GoogleApiClient.ConnectionCallbacks, GoogleAp
     }
 
     public void loadServerAuthCode(final String oauthClientId, final RequestCallback callback) {
-        LOG.d("authCode","client id " + oauthClientId)
+        // LOG.d("authCode","client id " + oauthClientId);
         PendingResult<Games.GetServerAuthCodeResult> result = Games.getGamesServerAuthCode(client, oauthClientId);
         result.setResultCallback(new ResultCallback<Games.GetServerAuthCodeResult>() {
             public void onResult(Games.GetServerAuthCodeResult result) {
                 Status status = result.getStatus();
-                LOG.d("authCode","status " + status.toString())
-                Debug.waitForDebugger();
+                // LOG.d("authCode","status " + status.toString());
+                // Debug.waitForDebugger();
                 if (status.isSuccess()) {
                     String authCode = result.getCode();
                     JSONObject data = new JSONObject();
