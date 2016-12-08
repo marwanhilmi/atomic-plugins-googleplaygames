@@ -364,12 +364,13 @@
              * Loads an auth code for player. See for more info: http://android-developers.blogspot.com/2016/01/play-games-permissions-are-changing-in.html
              * @function loadServerAuthCode
              * @memberOf Cocoon.Social.GooglePlayGames
+             * @param {string} clientId The Google OAuth Client Id
              * @param {function} callback The callback function. It receives the following parameters:
              * - authCode: Object with the authCode
              * - Error.
              */
-            loadServerAuthCode: function (callback) {
-                Cocoon.exec(this.serviceName, "loadServerAuthCode", [], function (authCode) {
+            loadServerAuthCode: function (clientId, callback) {
+                Cocoon.exec(this.serviceName, "loadServerAuthCode", [clientId || ""], function (authCode) {
                     callback(authCode, null);
                 }, function (error) {
                     callback(null, error);
