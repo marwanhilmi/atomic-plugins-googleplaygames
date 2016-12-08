@@ -42,7 +42,7 @@ import com.google.android.gms.games.snapshot.SnapshotMetadataChange;
 import com.google.android.gms.games.snapshot.Snapshots;
 import com.google.android.gms.games.stats.PlayerStats;
 import com.google.android.gms.games.stats.Stats;
-import com.google.android.gms.plus.Plus;
+// import com.google.android.gms.plus.Plus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedOutputStream;
@@ -411,7 +411,6 @@ public class GPGService implements GoogleApiClient.ConnectionCallbacks, GoogleAp
 
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(activity, this, this);
         builder.addApi(Games.API);
-        builder.addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN);
         builder.addScope(Games.SCOPE_GAMES);
         
         //TODO: better way to handle extra scopes
